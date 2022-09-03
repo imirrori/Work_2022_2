@@ -7,7 +7,7 @@
 int main()
 {
     constexpr int size = 9;
-    const char* Names[] = {
+    const char* Names[size] = {
         "Stolarov Vladimir",
         "Maksimenko Mihail",
         "Morozov Dmitry",
@@ -46,7 +46,7 @@ int main()
     for(int i = 0; i < size; ++i)
     {
         printf("|%24s| %-24s|\n", Names[i], Names[Results[i]]);
-        printf("+------------------------|-------------------------+\n");
+        printf("+------------------------+-------------------------+\n");
     }
 
     return 0;
