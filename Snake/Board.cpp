@@ -3,11 +3,10 @@
 
 #include <curses.h>
 
-Board* CreateBoard()
+Board* CreateBoard(GameSize gameSize)
 {
     Board* board = new Board;
-    board->height = 70;
-    board->width = 20;
+    board->gameSize = gameSize;
     return board;
 }
 
@@ -22,11 +21,22 @@ void PrintBoard(Board* board)
         return;
     }
 
-    for(int i = 0; i < board->width; ++i) {
-        for(int j = 0; j < board->height; ++j) {
-            move(i, j);
-            chtype ch = '*' | COLOR_PAIR(BOARD_POL);
+    for(int i = 0; i < board->gameSize.width; ++i) {
+        for(int j = 0; j < board->gameSize.height; ++j) {
+            move(j, i);
+            chtype ch = ' ' | COLOR_PAIR(BOARD_POL);
             addch(ch);
         }
     }
+}
+
+GameState RunBoard(Board* board, Board::BoardKey key)
+{
+    (void) board;
+
+    switch (key) {
+    case Board::ESC:
+        return MENU;
+    }
+    return BOARD;
 }

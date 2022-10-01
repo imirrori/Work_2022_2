@@ -3,7 +3,8 @@
 
 enum Politra
 {
-    BOARD_POL = 1
+    BOARD_POL = 1,
+    MENU_POL
 };
 
 void InitPolitra();
