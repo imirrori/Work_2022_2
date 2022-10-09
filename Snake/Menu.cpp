@@ -2,6 +2,7 @@
 #include "Politra.h"
 
 #include <curses.h>
+#include <string.h>
 
 Menu* CreateMenu(GameSize gameSize)
 {
@@ -30,14 +31,39 @@ void PrintMenu(Menu* menu)
     for(int i = 0; i < menu->gameSize.width; ++i) {
         for(int j = 0; j < menu->gameSize.height; ++j) {
             move(j, i);
-            addch(' ');
+            if (i == 0 && j == 0 ||
+                i == 0 && j == menu->gameSize.height - 1 ||
+                i == menu->gameSize.width - 1 && j == 0 ||
+                i == menu->gameSize.width - 1 && j ==  menu->gameSize.height - 1)
+            {
+                addch('+');
+            } else if (j == 0 || j == menu->gameSize.height - 1) {
+                addch('-');
+            } else if (i == 0 || i == menu->gameSize.width - 1) {
+                addch('|');
+            } else {
+                addch(' ');
+            }
         }
     }
 
     for (int i = 0; i < Menu::COUNT; ++i) {
-        mvprintw(i, 1, "%s", menu->menuStrings[i]);
+        mvprintw(
+            menu->gameSize.height / 2 + i,
+            (menu->gameSize.width - strlen(menu->menuStrings[i])) / 2,
+            "%s", menu->menuStrings[i]);
     }
-    move(menu->currentPoint, 0);
+
+    const size_t currentNameLenght = strlen(menu->menuStrings[menu->currentPoint]);
+    const size_t y =
+        menu->gameSize.height / 2 + menu->currentPoint;
+    const size_t x =
+        (menu->gameSize.width - currentNameLenght) / 2;
+
+    move(y, x - 1);
+    addch('*');
+
+    move(y, x + currentNameLenght);
     addch('*');
 
     attroff(COLOR_PAIR(MENU_POL));
