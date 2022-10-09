@@ -61,6 +61,8 @@ GameState RunGameSubModules(Game* game)
             return RunSnake(game->snake, Snake::LEFT);
         case KEY_RIGHT:
             return RunSnake(game->snake, Snake::RIGHT);
+        case -1:
+            return RunSnake(game->snake, game->snake->direction);
         default:
             return game->state;
         }
@@ -78,6 +80,7 @@ Game* CreateGame()
     curs_set(0); // Убрать мигающий курсор
    // refresh();
 
+    halfdelay(1);
     InitPolitra();
 
     Game* game = new Game;
