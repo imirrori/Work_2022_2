@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "Politra.h"
+#include "Helper.h"
 
 #include <curses.h>
 #include <string.h>
@@ -27,25 +28,7 @@ void PrintMenu(Menu* menu)
     }
 
     attron(COLOR_PAIR(MENU_POL));
-
-    for(int i = 0; i < menu->gameSize.width; ++i) {
-        for(int j = 0; j < menu->gameSize.height; ++j) {
-            move(j, i);
-            if (i == 0 && j == 0 ||
-                i == 0 && j == menu->gameSize.height - 1 ||
-                i == menu->gameSize.width - 1 && j == 0 ||
-                i == menu->gameSize.width - 1 && j ==  menu->gameSize.height - 1)
-            {
-                addch('+');
-            } else if (j == 0 || j == menu->gameSize.height - 1) {
-                addch('-');
-            } else if (i == 0 || i == menu->gameSize.width - 1) {
-                addch('|');
-            } else {
-                addch(' ');
-            }
-        }
-    }
+    PrintBorder(menu->gameSize.width, menu->gameSize.height);
 
     for (int i = 0; i < Menu::COUNT; ++i) {
         mvprintw(

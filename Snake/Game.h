@@ -4,7 +4,7 @@
 #include "Board.h"
 #include "GameState.h"
 #include "Menu.h"
-
+#include "Snake.h"
 
 struct Game
 {
@@ -12,6 +12,7 @@ struct Game
     GameSize gameSize;
     Board* board;
     Menu* menu;
+    Snake* snake;
 };
 
 Game* CreateGame();

@@ -15,6 +15,7 @@ void PrintGameSubModules(Game* game)
         break;
     case BOARD:
         PrintBoard(game->board);
+        PrintSnake(game->snake);
         break;
     case EXIT:
         return;
@@ -48,17 +49,21 @@ GameState RunGameSubModules(Game* game)
         }
         return RunMenu(game->menu, menuKey);
     case BOARD:
-        Board::BoardKey boardKey;
         switch(ch)
         {
         case 27:
-            boardKey = Board::ESC;
-            break;
+            return RunBoard(game->board, Board::ESC);
+        case KEY_UP:
+            return RunSnake(game->snake, Snake::UP);
+        case KEY_DOWN:
+            return RunSnake(game->snake, Snake::DOWN);
+        case KEY_LEFT:
+            return RunSnake(game->snake, Snake::LEFT);
+        case KEY_RIGHT:
+            return RunSnake(game->snake, Snake::RIGHT);
         default:
             return game->state;
         }
-        return RunBoard(game->board, boardKey);
-
     case EXIT:
         return game->state;
     }
@@ -80,6 +85,7 @@ Game* CreateGame()
     game->gameSize = {70, 20};
     game->board = CreateBoard(game->gameSize);
     game->menu = CreateMenu(game->gameSize);
+    game->snake = CreateSnake();
     return game;
 }
 
@@ -89,6 +95,7 @@ void DestroyGame(Game* game)
         return;
     }
 
+    DestroySnake(game->snake);
     DestroyMenu(game->menu);
     DestroyBoard(game->board);
     delete game;

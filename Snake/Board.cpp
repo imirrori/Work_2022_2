@@ -1,5 +1,6 @@
 #include "Board.h"
 #include "Politra.h"
+#include "Helper.h"
 
 #include <curses.h>
 
@@ -21,13 +22,14 @@ void PrintBoard(Board* board)
         return;
     }
 
+    attron(COLOR_PAIR(BOARD_POL));
     for(int i = 0; i < board->gameSize.width; ++i) {
         for(int j = 0; j < board->gameSize.height; ++j) {
             move(j, i);
-            chtype ch = ' ' | COLOR_PAIR(BOARD_POL);
-            addch(ch);
+            addch(' ');
         }
     }
+    PrintBorder(board->gameSize.width, board->gameSize.height);
 }
 
 GameState RunBoard(Board* board, Board::BoardKey key)
