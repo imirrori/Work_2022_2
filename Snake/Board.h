@@ -3,6 +3,8 @@
 
 #include "GameState.h"
 
+#include <stdlib.h>
+
 struct Board
 {
     enum BoardKey
@@ -11,6 +13,8 @@ struct Board
     };
 
     GameSize gameSize;
+    GameSize snakeSize;
+    GameSize scoreSize;
 };
 
 Board* CreateBoard(GameSize gameSize);

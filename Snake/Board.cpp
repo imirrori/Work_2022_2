@@ -6,8 +6,12 @@
 
 Board* CreateBoard(GameSize gameSize)
 {
+    const int scoreWidth = 20;
+
     Board* board = new Board;
     board->gameSize = gameSize;
+    board->snakeSize = {gameSize.width - scoreWidth, gameSize.height};
+    board->scoreSize = {scoreWidth, gameSize.height};
     return board;
 }
 
@@ -29,7 +33,8 @@ void PrintBoard(Board* board)
             addch(' ');
         }
     }
-    PrintBorder(board->gameSize.width, board->gameSize.height);
+    PrintBorder(0, board->snakeSize.width, board->snakeSize.height);
+    PrintBorder(board->snakeSize.width, board->scoreSize.width, board->scoreSize.height);
 }
 
 GameState RunBoard(Board* board, Board::BoardKey key)

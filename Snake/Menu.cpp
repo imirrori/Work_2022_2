@@ -28,7 +28,7 @@ void PrintMenu(Menu* menu)
     }
 
     attron(COLOR_PAIR(MENU_POL));
-    PrintBorder(menu->gameSize.width, menu->gameSize.height);
+    PrintBorder(0, menu->gameSize.width, menu->gameSize.height);
 
     for (int i = 0; i < Menu::COUNT; ++i) {
         mvprintw(

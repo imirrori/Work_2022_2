@@ -3,6 +3,6 @@
 
 #include <stdlib.h>
 
-void PrintBorder(size_t width, size_t height);
+void PrintBorder(size_t offest_width, size_t width, size_t height);
 
 #endif // HELPER_H
