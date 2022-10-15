@@ -12,6 +12,8 @@ Board* CreateBoard(GameSize gameSize)
     board->gameSize = gameSize;
     board->snakeSize = {gameSize.width - scoreWidth, gameSize.height};
     board->scoreSize = {scoreWidth, gameSize.height};
+    board->fruit = { rand() % (board->snakeSize.width - 2),
+                     rand() % (board->snakeSize.height - 2) };
     return board;
 }
 
@@ -40,6 +42,10 @@ void PrintBoard(Board* board, int score)
         1,
         board->snakeSize.width + 1,
         "score: %d", score);
+
+    attron(COLOR_PAIR(FRUIT_POL));
+    move(board->fruit.y, board->fruit.x);
+    addch('*');
 }
 
 GameState RunBoard(Board* board, Board::BoardKey key)

@@ -37,18 +37,23 @@ void PrintSnake(Snake* snake)
     }
 }
 
-GameState RunSnake(Snake* snake, Snake::Direction direction)
+RunSnakeResult RunSnake(Snake* snake, Snake::Direction direction, Point point)
 {
     if (!snake) {
-        return GameState::BOARD;
+        return {GameState::BOARD, false};
     }
 
     snake->direction = direction;
     if (!MoveSnake(snake)) {
-        return GameState::EXIT;
+        return {GameState::EXIT, false};
     }
 
-    return GameState::BOARD;
+    //вырасти
+
+    const bool eat = snake->body[0].x == point.x &&
+                     snake->body[0].y == point.y;
+
+    return {GameState::BOARD, eat};
 }
 
 
@@ -58,8 +63,8 @@ bool MoveSnake(Snake* snake)
         return false;
     }
 
-    Snake::Point newBody[255];
-    memcpy(newBody, snake->body, sizeof(Snake::Point) * snake->snakeSize);
+    Point newBody[255];
+    memcpy(newBody, snake->body, sizeof(Point) * snake->snakeSize);
 
     for (int i = snake->snakeSize - 1; i >= 1; --i) {
         newBody[i] = newBody[i - 1];
@@ -96,6 +101,6 @@ bool MoveSnake(Snake* snake)
         }
     }
 
-    memcpy(snake->body, newBody, sizeof(Snake::Point) * snake->snakeSize);
+    memcpy(snake->body, newBody, sizeof(Point) * snake->snakeSize);
     return true;
 }

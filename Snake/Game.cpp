@@ -2,6 +2,8 @@
 #include "Politra.h"
 
 #include <curses.h>
+#include <stdlib.h>
+#include <time.h>
 
 void PrintGameSubModules(Game* game)
 {
@@ -49,31 +51,39 @@ GameState RunGameSubModules(Game* game)
         }
         return RunMenu(game->menu, menuKey);
     case BOARD:
+    {
+        Snake::Direction direction = game->snake->direction;
         switch(ch)
         {
         case 27:
             return RunBoard(game->board, Board::ESC);
         case KEY_UP:
-            ++game->score;
-            return RunSnake(game->snake, Snake::UP);
+            direction = Snake::UP;
+            break;
         case KEY_DOWN:
-            ++game->score;
-            return RunSnake(game->snake, Snake::DOWN);
+            direction = Snake::DOWN;
+            break;
         case KEY_LEFT:
-            ++game->score;
-            return RunSnake(game->snake, Snake::LEFT);
+            direction = Snake::LEFT;
+            break;
         case KEY_RIGHT:
-            ++game->score;
-            return RunSnake(game->snake, Snake::RIGHT);
+            direction = Snake::RIGHT;
+            break;
         case -1:
-            ++game->score;
-            return RunSnake(game->snake, game->snake->direction);
+            break;
         default:
             return game->state;
         }
+        RunSnakeResult result = RunSnake(game->snake, direction, game->board->fruit);
+        if (result.eat) {
+            ++game->score;
+        }
+        return result.state;
+    }
     case EXIT:
         return game->state;
     }
+    return game->state;
 }
 
 Game* CreateGame()
@@ -87,6 +97,7 @@ Game* CreateGame()
 
     halfdelay(1);
     InitPolitra();
+    srand(time(NULL));
 
     Game* game = new Game;
     game->state = MENU;

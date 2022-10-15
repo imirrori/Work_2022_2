@@ -2,14 +2,9 @@
 #define SNAKE_H
 
 #include "GameState.h"
+#include "Helper.h"
 
 struct Snake {
-    struct Point
-    {
-        int x;
-        int y;
-    };
-
     enum Direction {
         UP,
         DOWN,
@@ -26,7 +21,14 @@ struct Snake {
 Snake* CreateSnake(GameSize gameSize);
 void DestroySnake(Snake* snake);
 void PrintSnake(Snake* snake);
-GameState RunSnake(Snake* snake, Snake::Direction direction);
+
+struct RunSnakeResult
+{
+    GameState state;
+    bool eat;
+};
+
+RunSnakeResult RunSnake(Snake* snake, Snake::Direction direction, Point fruit);
 bool MoveSnake(Snake* snake);
 
 #endif // SNAKE_H

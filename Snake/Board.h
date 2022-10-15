@@ -4,6 +4,7 @@
 #include "GameState.h"
 
 #include <stdlib.h>
+#include <Helper.h>
 
 struct Board
 {
@@ -15,6 +16,8 @@ struct Board
     GameSize gameSize;
     GameSize snakeSize;
     GameSize scoreSize;
+
+    Point fruit;
 };
 
 Board* CreateBoard(GameSize gameSize);
