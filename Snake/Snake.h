@@ -20,9 +20,10 @@ struct Snake {
     Point body[255];
     int snakeSize;
     Direction direction;
+    GameSize gameSize;
 };
 
-Snake* CreateSnake();
+Snake* CreateSnake(GameSize gameSize);
 void DestroySnake(Snake* snake);
 void PrintSnake(Snake* snake);
 GameState RunSnake(Snake* snake, Snake::Direction direction);

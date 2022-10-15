@@ -2,10 +2,12 @@
 #include "Snake.h"
 
 #include <curses.h>
+#include <string.h>
 
-Snake* CreateSnake()
+Snake* CreateSnake(GameSize gameSize)
 {
     Snake* snake = new Snake;
+    snake->gameSize = gameSize;
     snake->snakeSize = 5;
     snake->body[4] = {1, 1};
     snake->body[3] = {2, 1};
@@ -56,31 +58,44 @@ bool MoveSnake(Snake* snake)
         return false;
     }
 
+    Snake::Point newBody[255];
+    memcpy(newBody, snake->body, sizeof(Snake::Point) * snake->snakeSize);
+
     for (int i = snake->snakeSize - 1; i >= 1; --i) {
-        snake->body[i] = snake->body[i - 1];
+        newBody[i] = newBody[i - 1];
     }
 
     switch(snake->direction) {
     case Snake::UP:
-        --snake->body[0].y;
+        --newBody[0].y;
         break;
     case Snake::DOWN:
-        ++snake->body[0].y;
+        ++newBody[0].y;
         break;
     case Snake::LEFT:
-        --snake->body[0].x;
+        --newBody[0].x;
         break;
     case Snake::RIGHT:
-        ++snake->body[0].x;
+        ++newBody[0].x;
         break;
     }
 
     for (int i = 0; i + 1 < snake->snakeSize; ++i) {
-        if (snake->body[i + 1].x == snake->body[0].x &&
-            snake->body[i + 1].y == snake->body[0].y) {
+        if (newBody[i + 1].x == newBody[0].x &&
+            newBody[i + 1].y == newBody[0].y) {
             return false;
         }
     }
 
+    for (int i = 0; i < snake->snakeSize; ++i) {
+        if (newBody[i].x == 0 ||
+            newBody[i].y == 0 ||
+            newBody[i].x == snake->gameSize.width - 1 ||
+            newBody[i].y == snake->gameSize.height - 1) {
+            return false;
+        }
+    }
+
+    memcpy(snake->body, newBody, sizeof(Snake::Point) * snake->snakeSize);
     return true;
 }

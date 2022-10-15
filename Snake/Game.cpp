@@ -88,7 +88,7 @@ Game* CreateGame()
     game->gameSize = {70, 20};
     game->board = CreateBoard(game->gameSize);
     game->menu = CreateMenu(game->gameSize);
-    game->snake = CreateSnake();
+    game->snake = CreateSnake(game->gameSize);
     return game;
 }
 
