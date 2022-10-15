@@ -19,7 +19,7 @@ struct Board
 
 Board* CreateBoard(GameSize gameSize);
 void DestroyBoard(Board* board);
-void PrintBoard(Board* board);
+void PrintBoard(Board* board, int score);
 
 //Принимать нажатую клавишу
 //По тому, какая клавиша нажа, должно быть модифицировано меню

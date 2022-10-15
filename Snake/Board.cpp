@@ -20,7 +20,7 @@ void DestroyBoard(Board* board)
     delete board;
 }
 
-void PrintBoard(Board* board)
+void PrintBoard(Board* board, int score)
 {
     if (!board) {
         return;
@@ -35,6 +35,11 @@ void PrintBoard(Board* board)
     }
     PrintBorder(0, board->snakeSize.width, board->snakeSize.height);
     PrintBorder(board->snakeSize.width, board->scoreSize.width, board->scoreSize.height);
+
+    mvprintw(
+        1,
+        board->snakeSize.width + 1,
+        "score: %d", score);
 }
 
 GameState RunBoard(Board* board, Board::BoardKey key)

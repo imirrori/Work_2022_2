@@ -14,7 +14,7 @@ void PrintGameSubModules(Game* game)
         PrintMenu(game->menu);
         break;
     case BOARD:
-        PrintBoard(game->board);
+        PrintBoard(game->board, game->score);
         PrintSnake(game->snake);
         break;
     case EXIT:
@@ -54,14 +54,19 @@ GameState RunGameSubModules(Game* game)
         case 27:
             return RunBoard(game->board, Board::ESC);
         case KEY_UP:
+            ++game->score;
             return RunSnake(game->snake, Snake::UP);
         case KEY_DOWN:
+            ++game->score;
             return RunSnake(game->snake, Snake::DOWN);
         case KEY_LEFT:
+            ++game->score;
             return RunSnake(game->snake, Snake::LEFT);
         case KEY_RIGHT:
+            ++game->score;
             return RunSnake(game->snake, Snake::RIGHT);
         case -1:
+            ++game->score;
             return RunSnake(game->snake, game->snake->direction);
         default:
             return game->state;

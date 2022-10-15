@@ -13,6 +13,8 @@ struct Game
     Board* board;
     Menu* menu;
     Snake* snake;
+
+    int score;
 };
 
 Game* CreateGame();
